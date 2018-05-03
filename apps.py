@@ -17,30 +17,44 @@ class Config(object):
         categories = _('Sub categories')
         title = _('Title')
         content = _('Content')
+        language = _('Language')
+        description = _('Description')
 
     class ht(object):
         name = _('Name of the category')
         categories = _('Sub categories')
         title = _('Article title')
         content = _('Article content')
+        language = _('Language')
+        description = _('Description')
 
     class vbn(object):
         category = _('Category')
         article = _('Article')
+        language = _('Language')
 
     class vpn(object):
         category = _('Categories')
         article = _('Articles')
+        language = _('Languages')
+
+    class default(object):
+        language = 'en'
 
     class admin(object):
-        log_fieldsets      = (_('Log informations'), {'fields': ('update_by', 'date_create', 'date_update', 'error', 'message')})
-        category_fieldsets = (((None, { 'fields': ('name', 'categories'),})), (log_fieldsets))
-        category_list_display    = ('name',)
-        category_readonly_fields = ('update_by', 'date_create', 'date_update', 'error')
+        log_fieldsets              = (_('Log informations'), {'fields': ('update_by', 'date_create', 'date_update', 'error', 'message')})
+        category_fieldsets         = (((None, { 'fields': ('name', 'categories'),})), (log_fieldsets))
+        category_list_display      = ('name',)
+        category_readonly_fields   = ('update_by', 'date_create', 'date_update', 'error')
         category_filter_horizontal = ('categories',)
-        article_fieldsets       =
-        article_list_display    =
-        article_readonly_fields =
+        articlecat_fieldsets          = (((None, { 'fields': ('category',),})), (log_fieldsets))
+        articlecat_list_display       = ('id',)
+        articlecat_readonly_fields    = ('update_by', 'date_create', 'date_update', 'error')
+        article_fieldsets          = (((None, { 'fields': ('language', 'title', 'content'),})), (log_fieldsets))
+        article_readonly_fields    = ('update_by', 'date_create', 'date_update', 'error')
+        language_fieldsets         = (((None, { 'fields': ('language','description'),})), (log_fieldsets))
+        language_list_display      = ('language','description')
+        language_readonly_fields   = ('update_by', 'date_create', 'date_update', 'error')
 
 if hasattr(settings, Config.override):
     for config,configs in getattr(settings, Config.override).items():

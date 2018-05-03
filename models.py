@@ -24,9 +24,22 @@ class CategoryToArticle(Update):
         verbose_name        = conf.vbn.article
         verbose_name_plural = conf.vpn.article
 
+class Language(Update):
+    language = models.CharField(conf.vn.language, help_text=conf.ht.language, max_length=5, primary_key=True, default=conf.default.language)
+    description = models.CharField(conf.vn.description, help_text=conf.ht.description, max_length=254)
+
+    class Meta:
+        verbose_name        = conf.vbn.language
+        verbose_name_plural = conf.vpn.language
+
+    def __str__(self):
+        return '%s (%s)' % (self.description, self.language)
+
 class Article(Update):
-    article = models.ForeignKey(CategoryToArticle, on_delete=models.CASCADE)
+    language = models.ForeignKey(Language, on_delete=models.CASCADE, default=conf.default.language)
+    category = models.ForeignKey(CategoryToArticle, on_delete=models.CASCADE)
     title = models.CharField(conf.vn.title, help_text=conf.ht.title, max_length=254)
+    content = models.TextField(conf.vn.content, help_text=conf.ht.content, blank=True, null=True)
 
     def __str__(self):
         return self.title
