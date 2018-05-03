@@ -19,10 +19,15 @@ class Category(Update):
 
 class CategoryToArticle(Update):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    author = models.CharField(conf.vn.author, blank=True, editable=False, help_text=conf.ht.author, max_length=254, null=True)
 
     class Meta:
         verbose_name        = conf.vbn.article
         verbose_name_plural = conf.vpn.article
+
+    def list_html_br(self):
+        return format_html('<br>'.join(str(i) for i in Article.objects.filter(category=self).values_list('title', flat=True)))
+    list_html_br.short_description = conf.ht.list_html_br
 
 class Language(Update):
     language = models.CharField(conf.vn.language, help_text=conf.ht.language, max_length=5, primary_key=True, default=conf.default.language)

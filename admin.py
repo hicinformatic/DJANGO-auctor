@@ -33,4 +33,5 @@ class CategoryAdmin(OverAdmin, admin.ModelAdmin):
     fieldsets       = aucconf.admin.articlecat_fieldsets
     list_display    = aucconf.admin.articlecat_list_display
     readonly_fields = aucconf.admin.articlecat_readonly_fields
+    search_fields = aucconf.admin.articlecat_search_fields
     inlines = [ArticleInline,]

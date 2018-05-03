@@ -17,6 +17,7 @@ class Config(object):
         categories = _('Sub categories')
         title = _('Title')
         content = _('Content')
+        author = _('Author')
         language = _('Language')
         description = _('Description')
 
@@ -25,8 +26,10 @@ class Config(object):
         categories = _('Sub categories')
         title = _('Article title')
         content = _('Article content')
+        author = _('Article author')
         language = _('Language')
         description = _('Description')
+        list_html_br = _('Articles')
 
     class vbn(object):
         category = _('Category')
@@ -47,9 +50,10 @@ class Config(object):
         category_list_display      = ('name',)
         category_readonly_fields   = ('update_by', 'date_create', 'date_update', 'error')
         category_filter_horizontal = ('categories',)
-        articlecat_fieldsets          = (((None, { 'fields': ('category',),})), (log_fieldsets))
-        articlecat_list_display       = ('id',)
-        articlecat_readonly_fields    = ('update_by', 'date_create', 'date_update', 'error')
+        articlecat_fieldsets       = (((None, { 'fields': ('category',),})), (log_fieldsets))
+        articlecat_list_display    = ('list_html_br', 'category', 'author')
+        articlecat_readonly_fields = ('update_by', 'date_create', 'date_update', 'error')
+        articlecat_search_fields   = ('article__title', 'category__name')
         article_fieldsets          = (((None, { 'fields': ('language', 'title', 'content'),})), (log_fieldsets))
         article_readonly_fields    = ('update_by', 'date_create', 'date_update', 'error')
         language_fieldsets         = (((None, { 'fields': ('language','description'),})), (log_fieldsets))
