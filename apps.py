@@ -30,6 +30,7 @@ class Config(object):
         language = _('Language')
         description = _('Description')
         list_html_br = _('Articles')
+        list_html_pipe = _('Articles')
 
     class vbn(object):
         category = _('Category')
@@ -59,6 +60,10 @@ class Config(object):
         language_fieldsets         = (((None, { 'fields': ('language','description'),})), (log_fieldsets))
         language_list_display      = ('language','description')
         language_readonly_fields   = ('update_by', 'date_create', 'date_update', 'error')
+
+    class paginate(object):
+        category = 25
+        article = 25
 
 if hasattr(settings, Config.override):
     for config,configs in getattr(settings, Config.override).items():

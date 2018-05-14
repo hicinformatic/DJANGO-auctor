@@ -29,6 +29,10 @@ class CategoryToArticle(Update):
         return format_html('<br>'.join(str(i) for i in Article.objects.filter(category=self).values_list('title', flat=True)))
     list_html_br.short_description = conf.ht.list_html_br
 
+    def list_html_pipe(self):
+        return ' | '.join(str(i) for i in Article.objects.filter(category=self).values_list('title', flat=True))
+    list_html_pipe.short_description = conf.ht.list_html_pipe
+
 class Language(Update):
     language = models.CharField(conf.vn.language, help_text=conf.ht.language, max_length=5, primary_key=True, default=conf.default.language)
     description = models.CharField(conf.vn.description, help_text=conf.ht.description, max_length=254)
