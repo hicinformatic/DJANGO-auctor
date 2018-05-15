@@ -5,7 +5,7 @@ from simplify.apps import SimplifyConfig as conf
 from simplify.admin import OverAdmin
 
 from .apps import AuctorConfig as aucconf
-from .models import (Category, CategoryToArticle, Article, Language)
+from .models import (Category, CategoryToArticle, Article, Language, Comment)
 #from .forms import ProviderAdminForm
 #from .views import (ProviderAdminCheck, GuestAdminCheck)
 
@@ -35,3 +35,9 @@ class CategoryAdmin(OverAdmin, admin.ModelAdmin):
     readonly_fields = aucconf.admin.articlecat_readonly_fields
     search_fields = aucconf.admin.articlecat_search_fields
     inlines = [ArticleInline,]
+
+@admin.register(Comment)
+class CommentAdmin(OverAdmin, admin.ModelAdmin):
+    fieldsets       = aucconf.admin.comment_fieldsets
+    list_display    = aucconf.admin.comment_list_display
+    readonly_fields = aucconf.admin.comment_readonly_fields

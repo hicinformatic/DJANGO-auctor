@@ -15,11 +15,13 @@ class Config(object):
     class vn(object):
         name = _('Category name')
         categories = _('Sub categories')
+        articles_nbr = _('Number of articles')
         title = _('Title')
         content = _('Content')
         author = _('Author')
         language = _('Language')
         description = _('Description')
+        comments_nbr = _('Number of comments')
 
     class ht(object):
         name = _('Name of the category')
@@ -36,11 +38,13 @@ class Config(object):
         category = _('Category')
         article = _('Article')
         language = _('Language')
+        comment = _('Comment')
 
     class vpn(object):
         category = _('Categories')
         article = _('Articles')
         language = _('Languages')
+        comment = _('Comments')
 
     class default(object):
         language = 'en'
@@ -48,22 +52,26 @@ class Config(object):
     class admin(object):
         log_fieldsets              = (_('Log informations'), {'fields': ('update_by', 'date_create', 'date_update', 'error', 'message')})
         category_fieldsets         = (((None, { 'fields': ('name', 'categories'),})), (log_fieldsets))
-        category_list_display      = ('name',)
-        category_readonly_fields   = ('update_by', 'date_create', 'date_update', 'error')
+        category_list_display      = ('name', 'articles_nbr')
+        category_readonly_fields   = ('articles_nbr', 'update_by', 'date_create', 'date_update', 'error')
         category_filter_horizontal = ('categories',)
-        articlecat_fieldsets       = (((None, { 'fields': ('category',),})), (log_fieldsets))
-        articlecat_list_display    = ('list_html_br', 'category', 'author')
-        articlecat_readonly_fields = ('update_by', 'date_create', 'date_update', 'error')
+        articlecat_fieldsets       = (((None, { 'fields': ('category', 'comments_nbr',),})), (log_fieldsets))
+        articlecat_list_display    = ('list_html_br', 'category', 'author', 'comments_nbr')
+        articlecat_readonly_fields = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error')
         articlecat_search_fields   = ('article__title', 'category__name')
-        article_fieldsets          = (((None, { 'fields': ('language', 'title', 'content'),})), (log_fieldsets))
-        article_readonly_fields    = ('update_by', 'date_create', 'date_update', 'error')
+        article_fieldsets          = (((None, { 'fields': ('language', 'title', 'content', 'comments_nbr'),})), (log_fieldsets))
+        article_readonly_fields    = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error')
         language_fieldsets         = (((None, { 'fields': ('language','description'),})), (log_fieldsets))
         language_list_display      = ('language','description')
         language_readonly_fields   = ('update_by', 'date_create', 'date_update', 'error')
+        comment_fieldsets         = (((None, { 'fields': ('article','content', 'author'),})), (log_fieldsets))
+        comment_list_display      = ('content', 'author', 'article')
+        comment_readonly_fields   = ('article', 'author', 'update_by', 'date_create', 'date_update', 'error')
 
     class paginate(object):
         category = 25
         article = 25
+        comment = 25
 
 if hasattr(settings, Config.override):
     for config,configs in getattr(settings, Config.override).items():
