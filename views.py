@@ -10,11 +10,19 @@ from simplify.decorators import is_superuser_required
 from .apps import AuctorConfig as conf
 from .models import (Category, CategoryToArticle, Article, Language)
 
+# ██████╗ █████╗ ████████╗███████╗ ██████╗  ██████╗ ██████╗ ██╗   ██╗
+#██╔════╝██╔══██╗╚══██╔══╝██╔════╝██╔════╝ ██╔═══██╗██╔══██╗╚██╗ ██╔╝
+#██║     ███████║   ██║   █████╗  ██║  ███╗██║   ██║██████╔╝ ╚████╔╝ 
+#██║     ██╔══██║   ██║   ██╔══╝  ██║   ██║██║   ██║██╔══██╗  ╚██╔╝  
+#╚██████╗██║  ██║   ██║   ███████╗╚██████╔╝╚██████╔╝██║  ██║   ██║   
+# ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝   ╚═╝
 class CategoryCreate(HybridCreateView):
+    current_namespace = conf.namespace
     model = Category
     fields = ['name',]
 
 class CategoryUpdate(HybridUpdateView):
+    current_namespace = conf.namespace
     model = Category
     fields = ['name',]
 
@@ -27,11 +35,19 @@ class CategoryDetail(HybridDetailView):
     model = Category
     fields_detail = ['id', 'name',]
 
+#██╗      █████╗ ███╗   ██╗ ██████╗ ██╗   ██╗ █████╗  ██████╗ ███████╗
+#██║     ██╔══██╗████╗  ██║██╔════╝ ██║   ██║██╔══██╗██╔════╝ ██╔════╝
+#██║     ███████║██╔██╗ ██║██║  ███╗██║   ██║███████║██║  ███╗█████╗  
+#██║     ██╔══██║██║╚██╗██║██║   ██║██║   ██║██╔══██║██║   ██║██╔══╝  
+#███████╗██║  ██║██║ ╚████║╚██████╔╝╚██████╔╝██║  ██║╚██████╔╝███████╗
+#╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
 class LanguageCreate(HybridCreateView):
+    current_namespace = conf.namespace
     model = Language
     fields = ['language','description',]
 
 class LanguageUpdate(HybridUpdateView):
+    current_namespace = conf.namespace
     model = Language
     fields = ['language','description',]
 
@@ -43,13 +59,26 @@ class LanguageDetail(HybridDetailView):
     model = Language
     fields_detail = ['language','description',]
 
+# █████╗ ██████╗ ████████╗██╗ ██████╗██╗     ███████╗
+#██╔══██╗██╔══██╗╚══██╔══╝██║██╔════╝██║     ██╔════╝
+#███████║██████╔╝   ██║   ██║██║     ██║     █████╗  
+#██╔══██║██╔══██╗   ██║   ██║██║     ██║     ██╔══╝  
+#██║  ██║██║  ██║   ██║   ██║╚██████╗███████╗███████╗
+#╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝╚══════╝╚══════╝
 class ArticleList(HybridListView):
     model = CategoryToArticle
-    fields_detail = ['id', 'list_html_pipe','category', 'author', 'article']
-    fields_relation = {'article': ['id','title', 'langue'],}
+    fields_detail = ['category', 'author', 'article']
+    fields_relation = {'article': ['id','title', 'language'],}
     paginate_by = conf.paginate.article
+    pk = 'list_html_br'
 
 class ArticleDetail(HybridDetailView):
     model = CategoryToArticle
     fields_detail = ['id', 'list_html_pipe','category', 'author']
 
+class Home(HybridListView):
+    model = CategoryToArticle
+    fields_detail = ['category', 'author', 'article']
+    fields_relation = {'article': ['id','title', 'language'],}
+    paginate_by = conf.paginate.article
+    pk = 'list_html_br'

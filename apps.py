@@ -12,6 +12,10 @@ class Config(object):
         app   = os.path.dirname(os.path.realpath(__file__))
         cache = '%s/cache' % app
 
+    class message(object):
+        norelatedarticles = _('No related articles')
+        norelatedarticles_languages = _('No related articles in your favorite languages')
+
     class vn(object):
         name = _('Category name')
         categories = _('Sub categories')
@@ -33,6 +37,7 @@ class Config(object):
         description = _('Description')
         list_html_br = _('Articles')
         list_html_pipe = _('Articles')
+        first_article = _('First article')
 
     class vbn(object):
         category = _('Category')
@@ -47,7 +52,7 @@ class Config(object):
         comment = _('Comments')
 
     class default(object):
-        language = 'en'
+        language = 'fr'
 
     class admin(object):
         log_fieldsets              = (_('Log informations'), {'fields': ('update_by', 'date_create', 'date_update', 'error', 'message')})
@@ -56,7 +61,7 @@ class Config(object):
         category_readonly_fields   = ('articles_nbr', 'update_by', 'date_create', 'date_update', 'error')
         category_filter_horizontal = ('categories',)
         articlecat_fieldsets       = (((None, { 'fields': ('category', 'comments_nbr',),})), (log_fieldsets))
-        articlecat_list_display    = ('list_html_br', 'category', 'author', 'comments_nbr')
+        articlecat_list_display    = ('list_html_br', 'category', 'author', 'comments_nbr', 'first_article', 'article_language')
         articlecat_readonly_fields = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error')
         articlecat_search_fields   = ('article__title', 'category__name')
         article_fieldsets          = (((None, { 'fields': ('language', 'title', 'content', 'comments_nbr'),})), (log_fieldsets))
