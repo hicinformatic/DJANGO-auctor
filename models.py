@@ -52,6 +52,8 @@ class CategoryToArticle(Update):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     author = models.CharField(conf.vn.author, blank=True, editable=False, help_text=conf.ht.author, max_length=254, null=True)
     comments_nbr = models.PositiveIntegerField(conf.vn.comments_nbr, editable=False, default=0)
+    thumbnail = models.BinaryField(null=True)
+    banner = models.BinaryField(null=True)
     locale = to_locale(get_language())[:2]
 
     class Meta:

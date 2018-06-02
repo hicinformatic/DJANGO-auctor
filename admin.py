@@ -6,6 +6,7 @@ from simplify.admin import OverAdmin
 
 from .apps import AuctorConfig as aucconf
 from .models import (Category, CategoryToArticle, Article, Language, Comment)
+from .forms import ThumbAndBannerForm
 
 conf_path = {'ns': aucconf.namespace, 'ext': conf.extension.regex}
 
@@ -44,8 +45,10 @@ class ArticleInline(admin.StackedInline):
     model = Article
     fieldsets = aucconf.admin.article_fieldsets
     readonly_fields = aucconf.admin.article_readonly_fields
+    extra = 1
 @admin.register(CategoryToArticle)
 class ArticleAdmin(OverAdmin, admin.ModelAdmin):
+    form            = ThumbAndBannerForm
     fieldsets       = aucconf.admin.articlecat_fieldsets
     list_display    = aucconf.admin.articlecat_list_display
     readonly_fields = aucconf.admin.articlecat_readonly_fields

@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 
-from simplify.hybrids import (FakeModel, HybridAdminView, HybridCreateView, HybridUpdateView, HybridDetailView, HybridListView, HybridTemplateView)
+from simplify.hybrids import (FakeModel, HybridAdminView, HybridCreateView, HybridUpdateView, HybridDetailView, HybridListView, HybridTemplateView, HybridImageView)
 from simplify.decorators import is_superuser_required
 
 from .apps import AuctorConfig as conf
@@ -76,9 +76,21 @@ class ArticleDetail(HybridDetailView):
     model = CategoryToArticle
     fields_detail = ['id', 'list_html_pipe','category', 'author']
 
+class ArticleThumbnail(HybridImageView):
+    model = CategoryToArticle
+    binary_field = 'thumbnail'
+    title_field = 'id'
+    prefix = 'auctor_thumbnail_'
+
+class ArticleBanner(HybridImageView):
+    model = CategoryToArticle
+    binary_field = 'banner'
+    title_field = 'id'
+    prefix = 'auctor_banner_'
+
 class Home(HybridListView):
     model = CategoryToArticle
-    fields_detail = ['category', 'author', 'article']
+    fields_detail = ['category', 'author', 'article',]
     fields_relation = {'article': ['id','title', 'language'],}
     paginate_by = conf.paginate.article
     pk = 'list_html_br'

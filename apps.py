@@ -60,7 +60,7 @@ class Config(object):
         category_list_display      = ('name', 'articles_nbr')
         category_readonly_fields   = ('articles_nbr', 'update_by', 'date_create', 'date_update', 'error')
         category_filter_horizontal = ('categories',)
-        articlecat_fieldsets       = (((None, { 'fields': ('category', 'comments_nbr',),})), (log_fieldsets))
+        articlecat_fieldsets       = (((None, { 'fields': ('category', 'comments_nbr','thumbnail_img', 'banner_img',),})), (log_fieldsets))
         articlecat_list_display    = ('list_html_br', 'category', 'author', 'comments_nbr', 'first_article', 'article_language')
         articlecat_readonly_fields = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error')
         articlecat_search_fields   = ('article__title', 'category__name')

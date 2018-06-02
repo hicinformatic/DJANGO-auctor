@@ -4,7 +4,7 @@ from simplify.apps import SimplifyConfig as conf
 from .apps import AuctorConfig as aucconf
 from . import views
 
-conf_path = {'ns': aucconf.namespace, 'ext': conf.extension.regex}
+conf_path = {'ns': aucconf.namespace, 'ext': conf.extension.regex, 'img': conf.extension.regex_img, }
 urlpatterns = []
 
 # ██████╗ █████╗ ████████╗███████╗ ██████╗  ██████╗ ██████╗ ██╗   ██╗
@@ -37,6 +37,7 @@ urlpatterns.append(re_path(r'{ns}/language/list(\.|/)?(?P<extension>({ext}))?/?'
 #╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝╚══════╝╚══════╝
 urlpatterns.append(re_path(r'{ns}/article/(?P<pk>\w+)/detail(\.|/)?(?P<extension>({ext}))?/?'.format(**conf_path), views.ArticleDetail.as_view(), name='article-detail'))
 urlpatterns.append(re_path(r'{ns}/article/list(\.|/)?(?P<extension>({ext}))?/?'.format(**conf_path), views.ArticleList.as_view(), name='article-list'))
+urlpatterns.append(re_path(r'{ns}/article/(?P<pk>\w+)/thumbnail\.(?P<extension>({img}))$'.format(**conf_path), views.ArticleThumbnail.as_view(), name='article-thumbnail'))
 
 # ██████╗ ██████╗ ███╗   ███╗███╗   ███╗███████╗███╗   ██╗████████╗
 #██╔════╝██╔═══██╗████╗ ████║████╗ ████║██╔════╝████╗  ██║╚══██╔══╝
