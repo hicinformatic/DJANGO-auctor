@@ -14,7 +14,7 @@ class Config(object):
 
     class message(object):
         norelatedarticles = _('No related articles')
-        norelatedarticles_languages = _('No related articles in your favorite languages')
+        norelatedarticles_languages = _('No related article in your favorite languages')
 
     class vn(object):
         name = _('Category name')
