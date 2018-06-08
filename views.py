@@ -67,8 +67,8 @@ class LanguageDetail(HybridDetailView):
 #╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝╚══════╝╚══════╝
 class ArticleList(HybridListView):
     model = CategoryToArticle
-    fields_detail = ['category', 'author', 'article']
-    fields_relation = {'article': ['id','title', 'language'],}
+    fields_detail = ['category', 'author', 'article', 'first_article', 'article_language']
+    fields_relation = {'article': ['id','title', 'language', 'content_cut'], }
     paginate_by = conf.paginate.article
     pk = 'list_html_br'
 
@@ -90,7 +90,8 @@ class ArticleBanner(HybridImageView):
 
 class Home(HybridListView):
     model = CategoryToArticle
-    fields_detail = ['category', 'author', 'article',]
-    fields_relation = {'article': ['id','title', 'language'],}
+    fields_detail = ['category', 'author', 'article', 'first_article',]
+    fields_relation = {'article': ['id','title', 'language'], 'first_article': ['id','title', 'language']}
     paginate_by = conf.paginate.article
     pk = 'list_html_br'
+    template_name = conf.template.home

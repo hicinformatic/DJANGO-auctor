@@ -22,6 +22,7 @@ class CategoryAdmin(OverAdmin, admin.ModelAdmin):
     list_display    = aucconf.admin.category_list_display
     readonly_fields = aucconf.admin.category_readonly_fields
     filter_horizontal = aucconf.admin.category_filter_horizontal
+    list_filter     = aucconf.admin.category_list_filter
 
 #██╗      █████╗ ███╗   ██╗ ██████╗ ██╗   ██╗ █████╗  ██████╗ ███████╗
 #██║     ██╔══██╗████╗  ██║██╔════╝ ██║   ██║██╔══██╗██╔════╝ ██╔════╝
@@ -34,6 +35,7 @@ class LanguageAdmin(OverAdmin, admin.ModelAdmin):
     fieldsets       = aucconf.admin.language_fieldsets
     list_display    = aucconf.admin.language_list_display
     readonly_fields = aucconf.admin.language_readonly_fields
+    list_filter     = aucconf.admin.language_list_filter
 
 # █████╗ ██████╗ ████████╗██╗ ██████╗██╗     ███████╗
 #██╔══██╗██╔══██╗╚══██╔══╝██║██╔════╝██║     ██╔════╝
@@ -66,3 +68,4 @@ class CommentAdmin(OverAdmin, admin.ModelAdmin):
     fieldsets       = aucconf.admin.comment_fieldsets
     list_display    = aucconf.admin.comment_list_display
     readonly_fields = aucconf.admin.comment_readonly_fields
+    list_filter     = aucconf.admin.comment_list_filter
