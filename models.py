@@ -2,6 +2,10 @@ from django.db import models
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import get_language, to_locale
+from django.urls import reverse
+from django.utils.html import format_html
+from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.utils import formats
 
 from simplify.models import Update
 
@@ -57,10 +61,11 @@ class CategoryToArticle(Update):
     author = models.CharField(conf.vn.author, blank=True, editable=False, help_text=conf.ht.author, max_length=254, null=True)
     comments_nbr = models.PositiveIntegerField(conf.vn.comments_nbr, editable=False, default=0)
     thumbnail = models.BinaryField(null=True)
+    thumbnail_mimetype = models.CharField(max_length=20, null=True, blank=True)
     banner = models.BinaryField(null=True)
+    banner_mimetype = models.CharField(max_length=20, null=True, blank=True)
     keywords = models.TextField(conf.vn.keywords, blank=True, editable=False, help_text=conf.ht.keywords, max_length=254, null=True)
     locale = to_locale(get_language())[:2]
-
 
     class Meta:
         verbose_name        = conf.vbn.article
@@ -97,6 +102,36 @@ class CategoryToArticle(Update):
             return articles[0]
         return conf.message.norelatedarticles_languages
     article_language.short_description = conf.ht.article_language
+
+    def get_thumbnail(self):
+        if self.thumbnail is not None:
+            url = reverse('auctor:article-thumbnail',  args=[self.id, conf.default.thumbnail[self.thumbnail_mimetype]])
+            return format_html('<a class="button" href="{url}">{vn}</a>'.format(url=url, vn=conf.vn.get_thumbnail))
+        return format_html('<a class="button" style="background: gray" href="">{vn}</a>'.format(vn=conf.vn.get_thumbnail))
+    get_thumbnail.short_description = conf.vn.get_thumbnail
+
+    def get_banner(self):
+        if self.banner is not None:
+            url = reverse('auctor:article-banner',  args=[self.id, conf.default.banner[self.banner_mimetype]])
+            return format_html('<a class="button" href="{url}">{vn}</a>'.format(url=url, vn=conf.vn.get_banner))
+        return format_html('<a class="button" style="background: gray" href="">{vn}</a>'.format(vn=conf.vn.get_banner))
+    get_banner.short_description = conf.vn.get_banner
+
+    def static_thumbnail(self):
+        if self.thumbnail_mimetype is not None and self.thumbnail is not None:
+            formatted_datetime = formats.date_format(self.date_create, 'Ymd')
+            extend = conf.default.banner[self.thumbnail_mimetype]
+            return static('auctor/{date}/thumbnail_{pk}.{ext}'.format(date=formatted_datetime, pk=self.pk, ext=extend))
+        return None
+    static_thumbnail.short_description = conf.vn.static_thumbnail
+
+    def static_banner(self):
+        if self.banner_mimetype is not None and self.banner is not None:
+            formatted_datetime = formats.date_format(self.date_create, 'Ymd')
+            extend = conf.default.banner[self.banner_mimetype]
+            return static('auctor/{date}/banner_{pk}.{ext}'.format(date=formatted_datetime, pk=self.pk, ext=extend))
+        return None
+    static_banner.short_description = conf.vn.static_banner
 
 class Article(Update):
     language = models.ForeignKey(Language, on_delete=models.CASCADE, default=conf.default.language)

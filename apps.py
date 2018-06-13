@@ -36,6 +36,10 @@ class Config(object):
         enable = _('Enabled')
         censor = _('Censored')
         delete = _('Deleted')
+        get_thumbnail = _('Thumbnail')
+        get_banner = _('Banner')
+        static_thumbnail = _('URL static thumbnail')
+        static_banner = _('URL static banner')
 
     class ht(object):
         name = _('Name of the category')
@@ -81,8 +85,8 @@ class Config(object):
         category_readonly_fields   = ('articles_nbr', 'update_by', 'date_create', 'date_update', 'error')
         category_filter_horizontal = ('categories',)
         category_list_filter       = ('enable', 'delete')
-        articlecat_fieldsets       = (((None, { 'fields': ('category', 'comments_nbr', 'thumbnail_img', 'banner_img', 'keywords'),})), (log_fieldsets))
-        articlecat_list_display    = ('list_html_br', 'category', 'author', 'comments_nbr', 'first_article', 'article_language')
+        articlecat_fieldsets       = (((None, { 'fields': ('category', 'comments_nbr', 'thumbnail_img', 'thumbnail_mimetype', 'banner_img', 'banner_mimetype', 'keywords'),})), (log_fieldsets))
+        articlecat_list_display    = ('list_html_br', 'category', 'author', 'comments_nbr', 'first_article', 'article_language', 'get_thumbnail', 'get_banner')
         articlecat_readonly_fields = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error', 'keywords')
         articlecat_search_fields   = ('article__title', 'category__name', 'keywords')
         article_fieldsets          = (((None, { 'fields': ('language', 'title', 'keywords', 'enable', 'delete', 'content', 'comments_nbr'),})), (log_fieldsets))
