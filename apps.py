@@ -16,6 +16,12 @@ class Config(object):
         norelatedarticles = _('No related articles')
         norelatedarticles_languages = _('No related article in your favorite languages')
 
+    class error(object):
+        mimetype_thumbnail = _('Mimetype not allowed: %s')
+        mimetype_banner = _('Mimetype not allowed: %s')
+        size_thumbnail = _('The file size exceeds the size allowed: %s > %s')
+        size_banner = _('The file size exceeds the size allowed: %s > %s')
+
     class vn(object):
         name = _('Category name')
         categories = _('Sub categories')
@@ -44,6 +50,8 @@ class Config(object):
         list_html_pipe = _('Articles')
         first_article = _('First article')
         article_language = _('Article in your favorite language')
+        can_get_banner = _('Can get banner')
+        can_get_thumbnail = _('Can get thumbnail')
 
     class vbn(object):
         category = _('Category')
@@ -60,6 +68,11 @@ class Config(object):
     class default(object):
         language = 'fr'
         language_desc = 'Français'
+        thumbnail = {'image/jpeg': 'jpg', 'image/pjpeg': 'jpg', 'image/png': 'png', 'image/x-png': 'png', 'image/svg+xml': 'svg'}
+        thumbnail_size = 400000
+        banner = {'image/jpeg': 'jpg', 'image/pjpeg': 'jpg', 'image/png': 'png', 'image/x-png': 'png', 'image/svg+xml': 'svg'}
+        banner_size = 1000000
+        library_pil = False
 
     class admin(object):
         log_fieldsets              = (_('Log informations'), {'fields': ('update_by', 'date_create', 'date_update', 'error', 'message')})
@@ -68,10 +81,10 @@ class Config(object):
         category_readonly_fields   = ('articles_nbr', 'update_by', 'date_create', 'date_update', 'error')
         category_filter_horizontal = ('categories',)
         category_list_filter       = ('enable', 'delete')
-        articlecat_fieldsets       = (((None, { 'fields': ('category', 'comments_nbr','thumbnail_img', 'banner_img',),})), (log_fieldsets))
+        articlecat_fieldsets       = (((None, { 'fields': ('category', 'comments_nbr', 'thumbnail_img', 'banner_img', 'keywords'),})), (log_fieldsets))
         articlecat_list_display    = ('list_html_br', 'category', 'author', 'comments_nbr', 'first_article', 'article_language')
-        articlecat_readonly_fields = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error')
-        articlecat_search_fields   = ('article__title', 'category__name')
+        articlecat_readonly_fields = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error', 'keywords')
+        articlecat_search_fields   = ('article__title', 'category__name', 'keywords')
         article_fieldsets          = (((None, { 'fields': ('language', 'title', 'keywords', 'enable', 'delete', 'content', 'comments_nbr'),})), (log_fieldsets))
         article_readonly_fields    = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error')
         article_list_filter        = ('enable', 'delete')
