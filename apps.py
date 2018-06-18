@@ -11,6 +11,8 @@ class Config(object):
     class directory(object):
         app   = os.path.dirname(os.path.realpath(__file__))
         cache = '%s/cache' % app
+        static_root  = settings.STATIC_ROOT
+        images = 'auctor'
 
     class message(object):
         norelatedarticles = _('No related articles')
@@ -37,9 +39,11 @@ class Config(object):
         censor = _('Censored')
         delete = _('Deleted')
         get_thumbnail = _('Thumbnail')
-        get_banner = _('Banner')
         static_thumbnail = _('URL static thumbnail')
+        root_thumbnail = _('Path root thumbnail')
+        get_banner = _('Banner')
         static_banner = _('URL static banner')
+        root_banner = _('Path root banner')
 
     class ht(object):
         name = _('Name of the category')
@@ -56,6 +60,7 @@ class Config(object):
         article_language = _('Article in your favorite language')
         can_get_banner = _('Can get banner')
         can_get_thumbnail = _('Can get thumbnail')
+        can_get_full = _('Can get full')
 
     class vbn(object):
         category = _('Category')
@@ -77,6 +82,8 @@ class Config(object):
         banner = {'image/jpeg': 'jpg', 'image/pjpeg': 'jpg', 'image/png': 'png', 'image/x-png': 'png', 'image/svg+xml': 'svg'}
         banner_size = 1000000
         library_pil = False
+        thumbnail_img = 'img/commons/thumbnail.svg'
+        banner_img = 'img/commons/default.svg'
 
     class admin(object):
         log_fieldsets              = (_('Log informations'), {'fields': ('update_by', 'date_create', 'date_update', 'error', 'message')})
@@ -86,7 +93,7 @@ class Config(object):
         category_filter_horizontal = ('categories',)
         category_list_filter       = ('enable', 'delete')
         articlecat_fieldsets       = (((None, { 'fields': ('category', 'comments_nbr', 'thumbnail_img', 'thumbnail_mimetype', 'banner_img', 'banner_mimetype', 'keywords'),})), (log_fieldsets))
-        articlecat_list_display    = ('list_html_br', 'category', 'author', 'comments_nbr', 'first_article', 'article_language', 'get_thumbnail', 'get_banner')
+        articlecat_list_display    = ('list_html_br', 'category', 'author', 'comments_nbr', 'first_article', 'article_language', 'button_get_thumbnail', 'button_get_banner')
         articlecat_readonly_fields = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error', 'keywords')
         articlecat_search_fields   = ('article__title', 'category__name', 'keywords')
         article_fieldsets          = (((None, { 'fields': ('language', 'title', 'keywords', 'enable', 'delete', 'content', 'comments_nbr'),})), (log_fieldsets))
@@ -103,7 +110,7 @@ class Config(object):
 
     class paginate(object):
         category = 25
-        article = 25
+        article = 2
         comment = 25
 
     class template(object):

@@ -16,11 +16,13 @@ from .models import (Category, CategoryToArticle, Article, Language)
 #██║     ██╔══██║   ██║   ██╔══╝  ██║   ██║██║   ██║██╔══██╗  ╚██╔╝  
 #╚██████╗██║  ██║   ██║   ███████╗╚██████╔╝╚██████╔╝██║  ██║   ██║   
 # ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝   ╚═╝
+@method_decorator(permission_required('auctor.add_category'), name='dispatch')
 class CategoryCreate(HybridCreateView):
     current_namespace = conf.namespace
     model = Category
     fields = ['name',]
 
+@method_decorator(permission_required('auctor.change_category'), name='dispatch')
 class CategoryUpdate(HybridUpdateView):
     current_namespace = conf.namespace
     model = Category
@@ -41,11 +43,13 @@ class CategoryDetail(HybridDetailView):
 #██║     ██╔══██║██║╚██╗██║██║   ██║██║   ██║██╔══██║██║   ██║██╔══╝  
 #███████╗██║  ██║██║ ╚████║╚██████╔╝╚██████╔╝██║  ██║╚██████╔╝███████╗
 #╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+@method_decorator(permission_required('auctor.add_language'), name='dispatch')
 class LanguageCreate(HybridCreateView):
     current_namespace = conf.namespace
     model = Language
     fields = ['language','description',]
 
+@method_decorator(permission_required('auctor.change_language'), name='dispatch')
 class LanguageUpdate(HybridUpdateView):
     current_namespace = conf.namespace
     model = Language
@@ -65,6 +69,14 @@ class LanguageDetail(HybridDetailView):
 #██╔══██║██╔══██╗   ██║   ██║██║     ██║     ██╔══╝  
 #██║  ██║██║  ██║   ██║   ██║╚██████╗███████╗███████╗
 #╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝╚══════╝╚══════╝
+@method_decorator(permission_required('auctor.can_get_full'), name='dispatch')
+class ArticleListFull(HybridListView):
+    model = CategoryToArticle
+    fields_detail = ['id', 'category', 'author', 'article', 'first_article', 'article_language', 'get_thumbnail', 'root_thumbnail', 'get_banner', 'root_banner']
+    fields_relation = {'article': ['id','title', 'language', 'content_cut'], }
+    paginate_by = conf.paginate.article
+    pk = 'list_html_br'
+
 class ArticleList(HybridListView):
     model = CategoryToArticle
     fields_detail = ['category', 'author', 'article', 'first_article', 'article_language']
@@ -76,12 +88,14 @@ class ArticleDetail(HybridDetailView):
     model = CategoryToArticle
     fields_detail = ['id', 'list_html_pipe','category', 'author']
 
+@method_decorator(permission_required('auctor.can_get_thumbnail'), name='dispatch')
 class ArticleThumbnail(HybridImageView):
     model = CategoryToArticle
     binary_field = 'thumbnail'
     title_field = 'id'
     prefix = 'auctor_thumbnail_'
 
+@method_decorator(permission_required('auctor.can_get_banner'), name='dispatch')
 class ArticleBanner(HybridImageView):
     model = CategoryToArticle
     binary_field = 'banner'

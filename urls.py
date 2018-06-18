@@ -36,6 +36,7 @@ urlpatterns.append(re_path(r'{ns}/language/list(\.|/)?(?P<extension>({ext}))?/?'
 #██║  ██║██║  ██║   ██║   ██║╚██████╗███████╗███████╗
 #╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝╚══════╝╚══════╝
 urlpatterns.append(re_path(r'{ns}/article/(?P<pk>\w+)/detail(\.|/)?(?P<extension>({ext}))?/?'.format(**conf_path), views.ArticleDetail.as_view(), name='article-detail'))
+urlpatterns.append(re_path(r'{ns}/article/list/full(\.|/)?(?P<extension>({ext}))?/?'.format(**conf_path), views.ArticleListFull.as_view(), name='article-list-full'))
 urlpatterns.append(re_path(r'{ns}/article/list(\.|/)?(?P<extension>({ext}))?/?'.format(**conf_path), views.ArticleList.as_view(), name='article-list'))
 urlpatterns.append(re_path(r'{ns}/article/(?P<pk>\w+)/thumbnail\.(?P<extension>({img}))$'.format(**conf_path), views.ArticleThumbnail.as_view(), name='article-thumbnail'))
 urlpatterns.append(re_path(r'{ns}/article/(?P<pk>\w+)/banner\.(?P<extension>({img}))$'.format(**conf_path), views.ArticleBanner.as_view(), name='article-banner'))

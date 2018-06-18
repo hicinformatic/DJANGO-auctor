@@ -73,6 +73,7 @@ class CategoryToArticle(Update):
         permissions  = (
             ('can_get_banner', conf.ht.can_get_banner),
             ('can_get_thumbnail', conf.ht.can_get_thumbnail),
+            ('can_get_full', conf.ht.can_get_full),
         )
 
     def list_html_br(self):
@@ -103,35 +104,73 @@ class CategoryToArticle(Update):
         return conf.message.norelatedarticles_languages
     article_language.short_description = conf.ht.article_language
 
+    def button_get_thumbnail(self):
+        if self.thumbnail is not None:
+            return format_html('<a class="button" href="{url}">{vn}</a>'.format(url=self.get_thumbnail(), vn=conf.vn.get_thumbnail))
+        return format_html('<a class="button" style="background: gray" href="#">{vn}</a>'.format(vn=conf.vn.get_thumbnail))
+    button_get_thumbnail.short_description = conf.vn.get_thumbnail
+
     def get_thumbnail(self):
         if self.thumbnail is not None:
-            url = reverse('auctor:article-thumbnail',  args=[self.id, conf.default.thumbnail[self.thumbnail_mimetype]])
-            return format_html('<a class="button" href="{url}">{vn}</a>'.format(url=url, vn=conf.vn.get_thumbnail))
-        return format_html('<a class="button" style="background: gray" href="">{vn}</a>'.format(vn=conf.vn.get_thumbnail))
+            return reverse('auctor:article-thumbnail',  args=[self.id, conf.default.thumbnail[self.thumbnail_mimetype]])
+        return None
     get_thumbnail.short_description = conf.vn.get_thumbnail
-
-    def get_banner(self):
-        if self.banner is not None:
-            url = reverse('auctor:article-banner',  args=[self.id, conf.default.banner[self.banner_mimetype]])
-            return format_html('<a class="button" href="{url}">{vn}</a>'.format(url=url, vn=conf.vn.get_banner))
-        return format_html('<a class="button" style="background: gray" href="">{vn}</a>'.format(vn=conf.vn.get_banner))
-    get_banner.short_description = conf.vn.get_banner
 
     def static_thumbnail(self):
         if self.thumbnail_mimetype is not None and self.thumbnail is not None:
             formatted_datetime = formats.date_format(self.date_create, 'Ymd')
-            extend = conf.default.banner[self.thumbnail_mimetype]
-            return static('auctor/{date}/thumbnail_{pk}.{ext}'.format(date=formatted_datetime, pk=self.pk, ext=extend))
-        return None
+            extend = conf.default.thumbnail[self.thumbnail_mimetype]
+            return static('{dir}/{date}/thumbnail_{pk}.{ext}'.format(dir=conf.directory.images, date=formatted_datetime, pk=self.pk, ext=extend))
+        return static(conf.default.thumbnail_img)
     static_thumbnail.short_description = conf.vn.static_thumbnail
+
+    def root_thumbnail(self):
+        if self.thumbnail_mimetype is not None and self.thumbnail is not None:
+            formatted_datetime = formats.date_format(self.date_create, 'Ymd')
+            extend = conf.default.thumbnail[self.thumbnail_mimetype]
+            return '{static}{dir}/{date}/thumbnail_{pk}.{ext}'.format(
+                static=conf.directory.static_root,
+                dir=conf.directory.images,
+                date=formatted_datetime,
+                pk=self.pk,
+                ext=extend
+            )
+        return None
+    root_thumbnail.short_description = conf.vn.root_thumbnail
+
+    def button_get_banner(self):
+        if self.banner is not None:
+            return format_html('<a class="button" href="{url}">{vn}</a>'.format(url=self.get_banner(), vn=conf.vn.get_banner))
+        return format_html('<a class="button" style="background: gray" href="#">{vn}</a>'.format(vn=conf.vn.get_banner))
+    button_get_banner.short_description = conf.vn.get_banner
+
+    def get_banner(self):
+        if self.banner is not None:
+            return reverse('auctor:article-banner',  args=[self.id, conf.default.banner[self.banner_mimetype]])
+        return None
+    get_banner.short_description = conf.vn.get_banner
 
     def static_banner(self):
         if self.banner_mimetype is not None and self.banner is not None:
             formatted_datetime = formats.date_format(self.date_create, 'Ymd')
             extend = conf.default.banner[self.banner_mimetype]
-            return static('auctor/{date}/banner_{pk}.{ext}'.format(date=formatted_datetime, pk=self.pk, ext=extend))
-        return None
+            return static('{dir}/{date}/banner_{pk}.{ext}'.format(dir=conf.directory.images, date=formatted_datetime, pk=self.pk, ext=extend))
+        return static(conf.default.banner_img)
     static_banner.short_description = conf.vn.static_banner
+
+    def root_banner(self):
+        if self.banner_mimetype is not None and self.banner is not None:
+            formatted_datetime = formats.date_format(self.date_create, 'Ymd')
+            extend = conf.default.banner[self.banner_mimetype]
+            return '{static}{dir}/{date}/banner_{pk}.{ext}'.format(
+                static=conf.directory.static_root,
+                dir=conf.directory.images,
+                date=formatted_datetime,
+                pk=self.pk,
+                ext=extend
+            )
+        return None
+    root_banner.short_description = conf.vn.root_banner
 
 class Article(Update):
     language = models.ForeignKey(Language, on_delete=models.CASCADE, default=conf.default.language)
