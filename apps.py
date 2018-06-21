@@ -35,9 +35,7 @@ class Config(object):
         language = _('Language')
         description = _('Description')
         comments_nbr = _('Number of comments')
-        enable = _('Enabled')
-        censor = _('Censored')
-        delete = _('Deleted')
+        state = _('Status')
         get_thumbnail = _('Thumbnail')
         static_thumbnail = _('URL static thumbnail')
         root_thumbnail = _('Path root thumbnail')
@@ -61,6 +59,7 @@ class Config(object):
         can_get_banner = _('Can get banner')
         can_get_thumbnail = _('Can get thumbnail')
         can_get_full = _('Can get full')
+        browser_language = _('Browser')
 
     class vbn(object):
         category = _('Category')
@@ -73,6 +72,22 @@ class Config(object):
         article = _('Articles')
         language = _('Languages')
         comment = _('Comments')
+
+    class choices(object):
+        state_preview = 'PREVIEW'
+        state_enable = 'ENABLE'
+        state_censor = 'CENSOR'
+        state_delete = 'DELETE'
+        state_approbate = 'APPROBATE'
+        state_validate = 'VALIDATE'
+        state = (
+            (state_preview,  _('Preview')),
+            (state_enable,  _('Enable')),
+            (state_censor,  _('Censored')),
+            (state_delete,  _('Deleted')),
+            (state_approbate, _('In approbation')),
+            (state_validate, _('Validated')),
+        )
 
     class default(object):
         language = 'fr'
@@ -87,26 +102,26 @@ class Config(object):
 
     class admin(object):
         log_fieldsets              = (_('Log informations'), {'fields': ('update_by', 'date_create', 'date_update', 'error', 'message')})
-        category_fieldsets         = (((None, { 'fields': ('name', 'enable', 'delete', 'categories'),})), (log_fieldsets))
-        category_list_display      = ('name', 'articles_nbr', 'enable', 'delete')
+        category_fieldsets         = (((None, { 'fields': ('name', 'state', 'categories'),})), (log_fieldsets))
+        category_list_display      = ('name', 'articles_nbr', 'state')
         category_readonly_fields   = ('articles_nbr', 'update_by', 'date_create', 'date_update', 'error')
         category_filter_horizontal = ('categories',)
-        category_list_filter       = ('enable', 'delete')
+        category_list_filter       = ('state',)
         articlecat_fieldsets       = (((None, { 'fields': ('category', 'comments_nbr', 'thumbnail_img', 'thumbnail_mimetype', 'banner_img', 'banner_mimetype', 'keywords'),})), (log_fieldsets))
         articlecat_list_display    = ('list_html_br', 'category', 'author', 'comments_nbr', 'first_article', 'article_language', 'button_get_thumbnail', 'button_get_banner')
         articlecat_readonly_fields = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error', 'keywords')
         articlecat_search_fields   = ('article__title', 'category__name', 'keywords')
-        article_fieldsets          = (((None, { 'fields': ('language', 'title', 'keywords', 'enable', 'delete', 'content', 'comments_nbr'),})), (log_fieldsets))
+        article_fieldsets          = (((None, { 'fields': ('language', 'title', 'keywords', 'state', 'content', 'comments_nbr'),})), (log_fieldsets))
         article_readonly_fields    = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error')
-        article_list_filter        = ('enable', 'delete')
-        language_fieldsets         = (((None, { 'fields': ('language', 'description', 'enable', 'delete'),})), (log_fieldsets))
-        language_list_display      = ('language','description', 'enable', 'delete')
+        language_fieldsets         = (((None, { 'fields': ('language', 'description', 'state'),})), (log_fieldsets))
+        language_list_display      = ('language', 'browser_language','description', 'state')
         language_readonly_fields   = ('update_by', 'date_create', 'date_update', 'error')
-        language_list_filter       = ('enable', 'delete')
-        comment_fieldsets         = (((None, { 'fields': ('article','censor', 'delete', 'content', 'author'),})), (log_fieldsets))
-        comment_list_display      = ('content', 'author', 'article', 'censor', 'delete')
+        language_list_filter       = ('state',)
+        language_search_fields     = ('language', 'description')
+        comment_fieldsets         = (((None, { 'fields': ('article','state', 'content', 'author'),})), (log_fieldsets))
+        comment_list_display      = ('content', 'author', 'article', 'state')
         comment_readonly_fields   = ('article', 'author', 'update_by', 'date_create', 'date_update', 'error')
-        comment_list_filter       = ('censor', 'delete')
+        comment_list_filter       = ('state',)
 
     class paginate(object):
         category = 25

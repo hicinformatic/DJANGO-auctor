@@ -49,4 +49,5 @@ urlpatterns.append(re_path(r'{ns}/article/(?P<pk>\w+)/banner\.(?P<extension>({im
 # ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝
 
 
+urlpatterns.append(re_path(r'page/(?P<page>\d+)/?', views.Home.as_view(), name='auctor-home'))
 urlpatterns.append(re_path(r'', views.Home.as_view(), name='auctor-home'))

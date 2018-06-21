@@ -36,6 +36,8 @@ class LanguageAdmin(OverAdmin, admin.ModelAdmin):
     list_display    = aucconf.admin.language_list_display
     readonly_fields = aucconf.admin.language_readonly_fields
     list_filter     = aucconf.admin.language_list_filter
+    search_fields   = aucconf.admin.language_search_fields
+
 
 # █████╗ ██████╗ ████████╗██╗ ██████╗██╗     ███████╗
 #██╔══██╗██╔══██╗╚══██╔══╝██║██╔════╝██║     ██╔════╝
