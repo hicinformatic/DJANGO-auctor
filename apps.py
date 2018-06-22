@@ -29,6 +29,7 @@ class Config(object):
         categories = _('Sub categories')
         articles_nbr = _('Number of articles')
         title = _('Title')
+        content_ac = _('Content Auctor-Code')
         content = _('Content')
         author = _('Author')
         keywords = _('Keywords')
@@ -47,6 +48,7 @@ class Config(object):
         name = _('Name of the category')
         categories = _('Sub categories')
         title = _('Article title')
+        content_ac = _('Article Content Auctor-Code')
         content = _('Article content')
         author = _('Article author')
         keywords = _('keywords separated by a space')
@@ -111,7 +113,7 @@ class Config(object):
         articlecat_list_display    = ('list_html_br', 'category', 'author', 'comments_nbr', 'first_article', 'article_language', 'button_get_thumbnail', 'button_get_banner')
         articlecat_readonly_fields = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error', 'keywords')
         articlecat_search_fields   = ('article__title', 'category__name', 'keywords')
-        article_fieldsets          = (((None, { 'fields': ('language', 'title', 'keywords', 'state', 'content', 'comments_nbr'),})), (log_fieldsets))
+        article_fieldsets          = (((None, { 'fields': ('language', 'title', 'keywords', 'state', 'content_ac', 'content', 'comments_nbr'),})), (log_fieldsets))
         article_readonly_fields    = ('comments_nbr', 'update_by', 'date_create', 'date_update', 'error')
         language_fieldsets         = (((None, { 'fields': ('language', 'description', 'state'),})), (log_fieldsets))
         language_list_display      = ('language', 'browser_language','description', 'state')
@@ -141,3 +143,6 @@ if hasattr(settings, Config.override):
 
 class AuctorConfig(AppConfig, Config):
     name = 'auctor'
+
+    def ready(self):
+        from . import signals

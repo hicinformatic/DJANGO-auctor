@@ -180,6 +180,7 @@ class Article(Update):
     category = models.ForeignKey(CategoryToArticle, on_delete=models.CASCADE)
     title = models.CharField(conf.vn.title, help_text=conf.ht.title, max_length=254)
     keywords = models.CharField(conf.vn.keywords, blank=True, help_text=conf.ht.keywords, max_length=254, null=True)
+    content_ac = models.TextField(conf.vn.content_ac, help_text=conf.ht.content_ac, blank=True, null=True)
     content = models.TextField(conf.vn.content, help_text=conf.ht.content, blank=True, null=True)
     comments_nbr = models.PositiveIntegerField(conf.vn.comments_nbr, editable=False, default=0)
     state = models.CharField(conf.vn.state, choices=conf.choices.state, max_length=254, default=conf.choices.state_preview)
